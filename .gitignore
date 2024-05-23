@@ -6,7 +6,7 @@ build/
 !**/src/test/**/build/
 
 ### ENV ###
-application-kakao.properties
+application-information.properties
 
 ### STS ###
 .apt_generated

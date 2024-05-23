@@ -31,30 +31,16 @@ public class KakaoController {
     private final KakaoService kakaoService;
 
     // 목표 : 해커톤 방식으로 로그인 후 Jwt 발급해 주기
-    @PostMapping("/login")
+    @PostMapping("/login/token")
     public ResponseEntity<UserDto> kakaoLogin(@RequestBody KakaoDto kakaoDto){
         LOGGER.info("------------------kakoLogin------------------");
+        String accessToken = kakaoDto.getAccessToken();
+        LOGGER.info("accessToken : {}", accessToken);
+
+        kakaoService.getKakaoUserInfo(accessToken);
+
         LOGGER.info("----------------kakoLogin End----------------");
-        String code = kakaoDto.getCode();
-        LOGGER.info("get Code : {}", code);
-        String token = kakaoService.getKakaoToken(code);
-        LOGGER.info("get Token : {}", token);
-        UserDto userDto;
-        if(token != null){
-            userDto = kakaoService.getKakaoUserInfo(token);
-            LOGGER.info("get UserDto : {}", userDto);
-            if(userDto != null){
-                LOGGER.info("----------------kakoLogin End----------------");
-                return ResponseEntity.ok(userDto);
-            }
-            else {
-                LOGGER.info("----------------kakoLogin End----------------");
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-            }
-        }
-        else{
-            LOGGER.info("----------------kakoLogin End----------------");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
+
+        return null;
     }
 }

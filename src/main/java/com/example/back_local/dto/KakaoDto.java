@@ -23,6 +23,6 @@ import lombok.ToString;
 @Builder
 public class KakaoDto {
 
-    private String code;
+    private String accessToken;
 
 }

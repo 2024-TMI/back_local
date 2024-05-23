@@ -11,7 +11,5 @@ import com.example.back_local.dto.UserDto;
  * @GitHub :
  */
 public interface KakaoService {
-
-    public String getKakaoToken(String code);
-    public UserDto getKakaoUserInfo(String token);
+    public String getKakaoUserInfo(String accessToken);
 }
