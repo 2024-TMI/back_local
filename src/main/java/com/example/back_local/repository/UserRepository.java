@@ -1,6 +1,7 @@
 package com.example.back_local.repository;
 
 import com.example.back_local.entity.UserEntity;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -12,5 +13,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @GitHub :
  */
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
+
+
 
 }

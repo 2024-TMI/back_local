@@ -11,5 +11,6 @@ import com.example.back_local.dto.UserDto;
  * @GitHub :
  */
 public interface KakaoService {
-    public String getKakaoUserInfo(String accessToken);
+
+    public void kakaoLoginOrRegister(String accessToken);
 }

@@ -31,8 +31,15 @@ public class KakaoServiceImpl implements KakaoService {
     private Logger LOGGER = LoggerFactory.getLogger(KakaoServiceImpl.class);
     private String baseUrl;
     private String path;
+
     @Override
-    public String getKakaoUserInfo(String accessToken) {
+    public void kakaoLoginOrRegister(String accessToken) {
+
+        KakaoUserInfoDto kakaoUserInfoDto = getKakaoUserInfo(accessToken);
+
+    }
+
+    public KakaoUserInfoDto getKakaoUserInfo(String accessToken) {
         LOGGER.info("---------------getKakaoUserInfo--------------");
         LOGGER.info("-------------getKakaoUserInfo End------------");
         baseUrl = "https://kapi.kakao.com";
@@ -48,32 +55,25 @@ public class KakaoServiceImpl implements KakaoService {
             .path(path)
             .encode().build().toUri();
 
+        RestTemplate restTemplate = new RestTemplate();
         try{
-            RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<KakaoUserInfoDto> responseEntity = restTemplate.postForEntity(uri, httpEntity, KakaoUserInfoDto.class);
 
-            LOGGER.info(responseEntity.getBody().toString());
-
-//            if(responseEntity.getStatusCode() == HttpStatus.OK){
-//                LOGGER.info("Response UserInfo from Kakao");
-//                UserEntity userEntity = UserEntity.builder()
-//                    .id(responseEntity.getBody().getId())
-//                    .nickname(responseEntity.getBody().getProperties().get("nickname"))
-//                    .takeaway("")
-//                    .sharing(0L)
-//                    .role("ROLE_USER")
-//                    .build();
-//
-//                return register(userEntity);
-//            }
-//            else{
-//                LOGGER.info("Failed Response UserInfo from Kakao, statusCode : {}", responseEntity.getStatusCode());
-//                return null;
-//            }
+            if(responseEntity.getStatusCode() == HttpStatus.OK){
+                LOGGER.info("responseEntity.getBody() : {}", responseEntity.getBody());
+                return responseEntity.getBody();
+            }
+            else{
+                LOGGER.info("Failed Response UserInfo from Kakao, statusCode : {}", responseEntity.getStatusCode());
+                return null;
+            }
         }catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.info("Failed Response UserInfo from Kakao");
             return null;
         }
-        return null;
+    }
+
+    public void findUser(UserEntity userEntity){
+
     }
 }
