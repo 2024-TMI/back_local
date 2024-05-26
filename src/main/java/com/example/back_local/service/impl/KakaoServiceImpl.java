@@ -43,10 +43,12 @@ public class KakaoServiceImpl implements KakaoService {
 
     @Override
     public UserDto kakaoLoginOrRegister(String accessToken) {
+        LOGGER.info("---------------kakaoLoginOrRegister--------------");
         KakaoUserInfoDto kakaoUserInfoDto = getKakaoUserInfo(accessToken);
         if(kakaoUserInfoDto != null){
             UserEntity member = saveOrReturnUser(makeUserEntity(kakaoUserInfoDto));
 
+            LOGGER.info("---------------kakaoLoginOrRegister end--------------");
             return UserDto.builder()
                 .username(member.getUsername())
                 .nickname(member.getNickname())
@@ -57,19 +59,9 @@ public class KakaoServiceImpl implements KakaoService {
         }
         return null;
     }
-    @Override
-    public Cookie createCookie(String key, String value){
-        Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(60*60*60); // 쿠키 수명 설정
-        //cookie.setSecure(true); //https 프로토콜을 통해서만 전송
-        cookie.setPath("/"); // 해당 경로와 그 이하 경로에서 사용 가능
-        cookie.setHttpOnly(true); //javaScript에서 해당 쿠키에 액세스 불가능 -> XSS 공격 대비 가능
-        return cookie;
-    }
 
     public KakaoUserInfoDto getKakaoUserInfo(String accessToken) {
         LOGGER.info("---------------getKakaoUserInfo--------------");
-        LOGGER.info("-------------getKakaoUserInfo End------------");
         String baseUrl = "https://kapi.kakao.com";
         String path = "/v2/user/me";
 
@@ -88,6 +80,7 @@ public class KakaoServiceImpl implements KakaoService {
             ResponseEntity<KakaoUserInfoDto> responseEntity = restTemplate.postForEntity(uri, httpEntity, KakaoUserInfoDto.class);
 
             if(responseEntity.getStatusCode() == HttpStatus.OK){
+                LOGGER.info("---------------getKakaoUserInfo End--------------");
                 return responseEntity.getBody();
             }
             else{
@@ -101,6 +94,7 @@ public class KakaoServiceImpl implements KakaoService {
     }
 
     public UserEntity makeUserEntity(KakaoUserInfoDto kakaoUserInfoDto){
+        LOGGER.info("---------------makeUserEntity--------------");
         String username = "kakao_" + kakaoUserInfoDto.getId().toString();
         String nickname = kakaoUserInfoDto.getProperties().get("nickname").toString();
         String email = null;
@@ -111,6 +105,7 @@ public class KakaoServiceImpl implements KakaoService {
         String provider = "kakao";
         String providerId = kakaoUserInfoDto.getId().toString();
 
+        LOGGER.info("---------------makeUserEntity End--------------");
         return UserEntity.builder()
             .username(username)
             .nickname(nickname)
@@ -125,7 +120,9 @@ public class KakaoServiceImpl implements KakaoService {
     }
 
     public UserEntity saveOrReturnUser(UserEntity user){
+        LOGGER.info("---------------saveOrReturnUser--------------");
         Optional<UserEntity> findUser = userRepository.findByUsername(user.getUsername());
+        LOGGER.info("---------------saveOrReturnUser end--------------");
         return findUser.orElse(userRepository.save(user));
     }
 }

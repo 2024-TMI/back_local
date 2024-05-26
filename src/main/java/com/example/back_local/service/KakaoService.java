@@ -15,5 +15,4 @@ import jakarta.servlet.http.Cookie;
 public interface KakaoService {
 
     public UserDto kakaoLoginOrRegister(String accessToken);
-    public Cookie createCookie(String key, String value);
 }

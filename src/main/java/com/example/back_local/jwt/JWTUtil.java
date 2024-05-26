@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +23,8 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class JWTUtil {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(JWTUtil.class);
 
     private SecretKey secretKey;
 
@@ -41,6 +45,8 @@ public class JWTUtil {
     }
 
     public String createJwt(String username, String role, Long expiredMs) {
+        LOGGER.info("------------------createJwt------------------");
+        LOGGER.info("------------------createJwt end------------------");
         return Jwts.builder()
             .claim("username", username)
             .claim("role", role)

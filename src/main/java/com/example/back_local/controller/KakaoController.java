@@ -38,17 +38,28 @@ public class KakaoController {
     @PostMapping("/login")
     public ResponseEntity<UserDto> kakaoLogin(@RequestParam("accesstoken") String accessToken, HttpServletResponse response){
         LOGGER.info("------------------kakoLogin------------------");
-        LOGGER.info("----------------kakoLogin End----------------");
         LOGGER.info("accessToken : {}", accessToken);
 
         UserDto memberInfo = kakaoService.kakaoLoginOrRegister(accessToken);
         if(memberInfo != null){
             String token = jwtUtil.createJwt(memberInfo.getUsername(), memberInfo.getRole(), 60*60*60L);
-            Cookie cookie = kakaoService.createCookie("Authorization", token);
+            Cookie cookie = createCookie("Authorization", token);
             response.addCookie(cookie);
+            LOGGER.info("----------------kakoLogin End----------------");
             return ResponseEntity.ok().body(memberInfo);
         } else {
+            LOGGER.info("----------------kakoLogin End----------------");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
+    }
+    public Cookie createCookie(String key, String value){
+        LOGGER.info("------------------createCookie------------------");
+        Cookie cookie = new Cookie(key, value);
+        cookie.setMaxAge(60*60*60); // 쿠키 수명 설정
+        //cookie.setSecure(true); //https 프로토콜을 통해서만 전송
+        cookie.setPath("/"); // 해당 경로와 그 이하 경로에서 사용 가능
+        cookie.setHttpOnly(true); //javaScript에서 해당 쿠키에 액세스 불가능 -> XSS 공격 대비 가능
+        LOGGER.info("------------------createCookie End------------------");
+        return cookie;
     }
 }
