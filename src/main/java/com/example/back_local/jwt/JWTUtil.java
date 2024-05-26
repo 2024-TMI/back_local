@@ -21,7 +21,6 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-@RequiredArgsConstructor
 public class JWTUtil {
 
     private final Logger LOGGER = LoggerFactory.getLogger(JWTUtil.class);
