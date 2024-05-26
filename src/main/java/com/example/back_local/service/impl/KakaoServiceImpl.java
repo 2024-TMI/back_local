@@ -103,7 +103,7 @@ public class KakaoServiceImpl implements KakaoService {
     public UserEntity makeUserEntity(KakaoUserInfoDto kakaoUserInfoDto){
         String username = "kakao_" + kakaoUserInfoDto.getId().toString();
         String nickname = kakaoUserInfoDto.getProperties().get("nickname").toString();
-        String email = kakaoUserInfoDto.getProperties().get("email").toString();
+        String email = null;
         String role = "ROLE_USER";
         String profile_image = kakaoUserInfoDto.getProperties().get("profile_image").toString();
         String thumbnail_image = kakaoUserInfoDto.getProperties().get("thumbnail_image").toString();
