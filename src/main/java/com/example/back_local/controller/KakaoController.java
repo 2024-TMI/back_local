@@ -33,6 +33,8 @@ public class KakaoController {
     public ResponseEntity<UserDto> kakaoLogin(@RequestParam("accesstoken") String accessToken){
         LOGGER.info("------------------kakoLogin------------------");
         LOGGER.info("accessToken : {}", accessToken);
+
+        kakaoService.kakaoLoginOrRegister(accessToken);
         LOGGER.info("----------------kakoLogin End----------------");
 
         return null;
