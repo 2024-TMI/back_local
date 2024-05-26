@@ -1,6 +1,8 @@
 package com.example.back_local.service;
 
 import com.example.back_local.dto.UserDto;
+import com.example.back_local.entity.UserEntity;
+import jakarta.servlet.http.Cookie;
 
 /**
  * @PackageName : com.example.back_local.service
@@ -12,5 +14,6 @@ import com.example.back_local.dto.UserDto;
  */
 public interface KakaoService {
 
-    public void kakaoLoginOrRegister(String accessToken);
+    public UserDto kakaoLoginOrRegister(String accessToken);
+    public Cookie createCookie(String key, String value);
 }

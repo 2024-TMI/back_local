@@ -12,8 +12,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @Blog : https://blog.naver.com/noglass_gongdae
  * @GitHub :
  */
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, String> {
 
-
+    Optional<UserEntity> findByUsername(String username);
 
 }

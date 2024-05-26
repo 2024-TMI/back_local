@@ -32,10 +32,21 @@ import lombok.ToString;
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String username;
 
     private String nickname;
 
+    private String email;
+
+    private String provider;
+
+    private String providerId;
+
     private String role;
+
+    private String password;
+
+    private String profile_image;
+
+    private String thumbnail_image;
 }
