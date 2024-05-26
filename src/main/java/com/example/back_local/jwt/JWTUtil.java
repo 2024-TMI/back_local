@@ -46,6 +46,7 @@ public class JWTUtil {
 
     public String createJwt(String username, String role, Long expiredMs) {
         LOGGER.info("------------------createJwt------------------");
+        LOGGER.info("secretKey : {}", secretKey);
         LOGGER.info("------------------createJwt end------------------");
         return Jwts.builder()
             .claim("username", username)
@@ -54,5 +55,7 @@ public class JWTUtil {
             .expiration(new Date(System.currentTimeMillis() + expiredMs))
             .signWith(secretKey)
             .compact();
+
+
     }
 }
