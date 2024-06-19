@@ -29,6 +29,12 @@ public class JWTFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
+        String path = request.getRequestURI();
+        if (path.equals("/ecom/api/swagger") || path.equals("/kakao/login")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         //Cookie들을 불러온 뒤, Authorization Key에 담긴 쿠키를 찾음
         String authorization = null;
         Cookie[] cookies = request.getCookies();
