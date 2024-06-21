@@ -1,9 +1,11 @@
 package com.example.back_local.controller;
 
+import com.example.back_local.dto.KakaoDto;
 import com.example.back_local.dto.UserDto;
 import com.example.back_local.entity.UserEntity;
 import com.example.back_local.jwt.JWTUtil;
 import com.example.back_local.service.KakaoService;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -37,12 +39,13 @@ public class KakaoController {
 
     // 목표 : 해커톤 방식으로 로그인 후 Jwt 발급해 주기
     @PostMapping("/login")
-    public ResponseEntity<UserDto> kakaoLogin(@RequestParam("accesstoken") String accessToken, HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<UserDto> kakaoLogin(@RequestBody KakaoDto kakaoDto, HttpServletRequest request, HttpServletResponse response){
         LOGGER.info("requestURL : {}", request.getRemoteAddr());
         LOGGER.info("requestURL : {}", request.getRemotePort());
         LOGGER.info("requestURL : {}", request.getRemoteUser());
         LOGGER.info("requestURL : {}", request.getRemoteHost());
         LOGGER.info("------------------kakoLogin------------------");
+        String accessToken = kakaoDto.getAccessToken();
         LOGGER.info("accessToken : {}", accessToken);
 
         UserDto memberInfo = kakaoService.kakaoLoginOrRegister(accessToken);
