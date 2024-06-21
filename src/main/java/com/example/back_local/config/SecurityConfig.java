@@ -66,7 +66,7 @@ public class SecurityConfig {
         //경로별 인가 작업
         http
             .authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/ecom/api/swagger").permitAll()
+                .requestMatchers("/ecom/api/swagger", "/h2-console/**").permitAll()
                 .requestMatchers("/kakao/login").permitAll()
                 .anyRequest().authenticated());
 
@@ -95,6 +95,11 @@ public class SecurityConfig {
             .sessionManagement((session) -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
+        //H2 console 사용을 위함
+        http
+                .csrf(csrf -> csrf.disable());
+        http
+                .headers(headers -> headers.frameOptions(frameOptionsConfig -> frameOptionsConfig.disable()));
         return http.build();
     }
 }

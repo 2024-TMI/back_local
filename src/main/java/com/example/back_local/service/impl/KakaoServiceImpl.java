@@ -3,11 +3,14 @@ package com.example.back_local.service.impl;
 import com.example.back_local.dto.KakaoUserInfoDto;
 import com.example.back_local.dto.UserDto;
 import com.example.back_local.entity.UserEntity;
+import com.example.back_local.entity.UserGroupMappingEntity;
 import com.example.back_local.jwt.JWTUtil;
 import com.example.back_local.repository.UserRepository;
 import com.example.back_local.service.KakaoService;
 import jakarta.servlet.http.Cookie;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -104,6 +107,7 @@ public class KakaoServiceImpl implements KakaoService {
         String encodedPassword = bCryptPasswordEncoder.encode(password);
         String provider = "kakao";
         String providerId = kakaoUserInfoDto.getId().toString();
+        List<UserGroupMappingEntity> list = new ArrayList<>();
 
         LOGGER.info("---------------makeUserEntity End--------------");
         return UserEntity.builder()
@@ -116,6 +120,7 @@ public class KakaoServiceImpl implements KakaoService {
             .password(encodedPassword)
             .provider(provider)
             .providerId(providerId)
+                .userGroupMappings(list)
             .build();
     }
 

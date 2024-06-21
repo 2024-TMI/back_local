@@ -23,7 +23,7 @@ public class CorsMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-            .exposedHeaders("Set-Cookie")
+            .exposedHeaders("Authorization")
             .allowedOrigins(client_URL);
     }
 }

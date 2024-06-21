@@ -3,6 +3,7 @@ package com.example.back_local.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,5 +29,5 @@ public class UserEntity {
     private String thumbnail_image;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserGroupMappingEntity> userGroupMappings;
+    private List<UserGroupMappingEntity> userGroupMappings = new ArrayList<>();
 }

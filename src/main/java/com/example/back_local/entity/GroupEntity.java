@@ -3,6 +3,7 @@ package com.example.back_local.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,9 +28,9 @@ public class GroupEntity {
     private String totalAmount;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserGroupMappingEntity> userGroupMappings;
+    private List<UserGroupMappingEntity> userGroupMappings = new ArrayList<>();
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AccountEntity> accounts;
+    private List<AccountEntity> accounts = new ArrayList<>();
 
 }
