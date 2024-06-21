@@ -5,6 +5,7 @@ import com.example.back_local.entity.UserEntity;
 import com.example.back_local.jwt.JWTUtil;
 import com.example.back_local.service.KakaoService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -36,7 +37,8 @@ public class KakaoController {
 
     // 목표 : 해커톤 방식으로 로그인 후 Jwt 발급해 주기
     @PostMapping("/login")
-    public ResponseEntity<UserDto> kakaoLogin(@RequestParam("accesstoken") String accessToken, HttpServletResponse response){
+    public ResponseEntity<UserDto> kakaoLogin(@RequestParam("accesstoken") String accessToken, HttpServletRequest request, HttpServletResponse response){
+        LOGGER.info("requestURL : {}", request.getRequestURL());
         LOGGER.info("------------------kakoLogin------------------");
         LOGGER.info("accessToken : {}", accessToken);
 
