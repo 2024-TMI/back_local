@@ -38,7 +38,10 @@ public class KakaoController {
     // 목표 : 해커톤 방식으로 로그인 후 Jwt 발급해 주기
     @PostMapping("/login")
     public ResponseEntity<UserDto> kakaoLogin(@RequestParam("accesstoken") String accessToken, HttpServletRequest request, HttpServletResponse response){
-        LOGGER.info("requestURL : {}", request.getRequestURL());
+        LOGGER.info("requestURL : {}", request.getRemoteAddr());
+        LOGGER.info("requestURL : {}", request.getRemotePort());
+        LOGGER.info("requestURL : {}", request.getRemoteUser());
+        LOGGER.info("requestURL : {}", request.getRemoteHost());
         LOGGER.info("------------------kakoLogin------------------");
         LOGGER.info("accessToken : {}", accessToken);
 
