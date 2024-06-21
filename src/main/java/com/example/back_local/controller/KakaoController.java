@@ -42,7 +42,7 @@ public class KakaoController {
         LOGGER.info("requestURL : {}", request.getRemoteHost());
         LOGGER.info("------------------kakoLogin------------------");
         String accessToken = kakaoDto.getAccessToken();
-        LOGGER.info("accessToken : {}", accessToken);
+        LOGGER.info("accessToken : {}", kakaoDto.getAccessToken());
 
         UserDto memberInfo = kakaoService.kakaoLoginOrRegister(accessToken);
         if(memberInfo != null){
