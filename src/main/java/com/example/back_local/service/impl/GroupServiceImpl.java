@@ -8,15 +8,19 @@ import com.example.back_local.entity.UserGroupMappingEntity;
 import com.example.back_local.repository.GroupRepository;
 import com.example.back_local.repository.UserGroupMappingRepository;
 import com.example.back_local.repository.UserRepository;
+import com.example.back_local.security.SecurityUtil;
 import com.example.back_local.service.GroupService;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import javax.swing.GroupLayout.Group;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,6 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class GroupServiceImpl implements GroupService {
 
     private final UserRepository userRepository;
@@ -49,7 +54,7 @@ public class GroupServiceImpl implements GroupService {
         GroupEntity groupEntity = makeGroupEntity(invite_code, group_name, group_category);
         GroupEntity saveGroup = saveGroupEntity(groupEntity);
 
-        String username = getCurrentUsername();
+        String username = SecurityUtil.getCurrentUsername();
         if(username == null){
             return null;
         }
@@ -59,6 +64,7 @@ public class GroupServiceImpl implements GroupService {
         }
         UserGroupMappingEntity userGroupMappingEntity = makeUserGroupMappingEntity(userEntity, groupEntity);
 
+        // add 할 필요없음 그냥 저장하면 됨 순서대로
 //        userEntity.getUserGroupMappings().add(userGroupMappingEntity);
 //        UserEntity saveUser = saveUserEntity(userEntity);
 //
@@ -66,15 +72,24 @@ public class GroupServiceImpl implements GroupService {
 //        GroupEntity reSaveGroup = saveGroupEntity(saveGroup);
 
         UserGroupMappingEntity saveUserGroup = saveGroupAndUserGroupMappingEntity(userGroupMappingEntity);
-
+        LOGGER.info("---------createGroup End-----------");
         return makeGroupAfterCreateDto(userEntity, saveGroup, saveUserGroup);
     }
-
     @Override
-    public void getGroupLists() {
-
+    public List<GroupEntity> getGroupLists() {
+        String username = SecurityUtil.getCurrentUsername();
+        return userGroupMappingRepository.findAllGroupsByUsername(username);
     }
-
+    @Override
+    public Boolean removeGroup(Long group_id) {
+        deleteGroup(group_id);
+        return userGroupMappingRepository.existsByGroupId(group_id);
+    }
+    @Override
+    public String checkGroupRole(Long group_id) {
+        String username = SecurityUtil.getCurrentUsername();
+        return userGroupMappingRepository.findGroupRoleByUsernameAndGroupId(username, group_id);
+    }
 
     private String generateInviteCode(String group_name){
         String uuid = UUID.randomUUID().toString();
@@ -113,18 +128,7 @@ public class GroupServiceImpl implements GroupService {
             .total_amount(total_amount)
             .build();
     }
-    private String getCurrentUsername(){
-        LOGGER.info("-------getCurrentUsername Start--------");
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
-            CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-            LOGGER.info("-------getCurrentUsername End--------");
-            return customUserDetails.getUsername();
-        }
-        LOGGER.info("-------getCurrentUsername null--------");
-        return null;
-    }
-    private UserEntity getUserEntity(String username){
+    public UserEntity getUserEntity(String username){
         return userRepository.findByUsername(username).orElse(null);
     }
     private UserGroupMappingEntity makeUserGroupMappingEntity(UserEntity userEntity, GroupEntity groupEntity) {
@@ -137,22 +141,15 @@ public class GroupServiceImpl implements GroupService {
             .group(groupEntity)
             .build();
     }
-
-    @Transactional
-    public GroupEntity saveGroupEntity(GroupEntity groupEntity){
+    public GroupEntity saveGroupEntity(GroupEntity groupEntity) {
         return groupRepository.save(groupEntity);
     }
-
-    @Transactional
-    public UserEntity saveUserEntity(UserEntity userEntity){
-        return userRepository.save(userEntity);
-    }
-
-    @Transactional
     public UserGroupMappingEntity saveGroupAndUserGroupMappingEntity(UserGroupMappingEntity userGroupMappingEntity){
         return userGroupMappingRepository.save(userGroupMappingEntity);
     }
-
+    public void deleteGroup(Long group_id){
+        userGroupMappingRepository.deleteById(group_id);
+    }
     public GroupAfterCreateDto makeGroupAfterCreateDto(
         UserEntity userEntity, GroupEntity groupEntity, UserGroupMappingEntity userGroupMappingEntity){
         return GroupAfterCreateDto.builder()
@@ -166,24 +163,5 @@ public class GroupServiceImpl implements GroupService {
             .group_role(userGroupMappingEntity.getGroup_role())
             .build();
     }
-//    @Transactional //동일한 클래스 내에서 부르면 통하지 않음
-//    public GroupAfterCreateDto saveGroupAndUserGroupMappingEntity(
-//        UserEntity userEntity, GroupEntity groupEntity, UserGroupMappingEntity userGroupMappingEntity){
-//
-//        userEntity.getUserGroupMappings().add(userGroupMappingEntity);
-//
-//        UserEntity saveUser = userRepository.save(userEntity);
-//        GroupEntity saveGroup = groupRepository.save(groupEntity);
-//        UserGroupMappingEntity saveUserGroup = userGroupMappingRepository.save(userGroupMappingEntity);
-//        return GroupAfterCreateDto.builder()
-//            .username(saveUser.getUsername())
-//            .group_id(saveGroup.getId())
-//            .invite_code(saveGroup.getInvite_code())
-//            .group_name(saveGroup.getGroup_name())
-//            .group_category(saveGroup.getGroup_category())
-//            .total(saveGroup.getTotal())
-//            .user_group_mapping_id(saveUserGroup.getId())
-//            .group_role(saveUserGroup.getGroup_role())
-//            .build();
-//    }
+
 }

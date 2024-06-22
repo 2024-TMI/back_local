@@ -1,6 +1,5 @@
 package com.example.back_local.dto.group;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Getter
@@ -9,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @ToString
-public class GroupDto {
+public class GroupCreateDto {
 
     private String group_name;
 
