@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.lang.Nullable;
 
 @Entity
 @Getter
@@ -12,25 +13,22 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
 @Table(name = "group_entity")
 public class GroupEntity {
     @Id
-    @Column(name = "group_id")
-    private String groupId;
-
-    private String groupName;
-    private String section;
-    private String groupCategory;
-    private String username;
-    private String total;
-    private String date;
-    private String totalAmount;
-
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserGroupMappingEntity> userGroupMappings = new ArrayList<>();
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String invite_code; //초대 코드
+    private String group_name; //그룹명
+    private String section; //날짜~날짜
+    private String group_category; //그룹 종류
+    private Long total; //총 인원
+    private String date; //?
+    private Long total_amount; //총 비용
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AccountEntity> accounts = new ArrayList<>();
+    private List<UserGroupMappingEntity> userGroupMappings;
 
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AccountEntity> accounts;
 }

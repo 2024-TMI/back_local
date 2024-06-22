@@ -49,11 +49,11 @@ public class JWTFilter extends OncePerRequestFilter {
 //                authorization = cookie.getValue();
 //            }
 //        }
-        if(request.getHeader("Authorization") == null){
-            filterChain.doFilter(request, response);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Don't exist jwt");
-            return;
-        }
+//        if(request.getHeader("Authorization") == null){
+//            filterChain.doFilter(request, response);
+//            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Don't exist jwt");
+//            return;
+//        }
         authorization = request.getHeader("Authorization");
 
         //Authorization 헤더 검증

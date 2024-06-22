@@ -22,12 +22,12 @@ public class UserEntity {
     private String nickname;
     private String role;
     private String profile_image;
+    private String thumbnail_image;
     private String email;
     private String provider;
     private String providerId;
     private String password;
-    private String thumbnail_image;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserGroupMappingEntity> userGroupMappings = new ArrayList<>();
+    private List<UserGroupMappingEntity> userGroupMappings;
 }

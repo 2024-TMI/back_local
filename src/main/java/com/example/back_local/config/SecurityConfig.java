@@ -72,6 +72,8 @@ public class SecurityConfig {
 
         http
             .cors(corsCustomizer -> corsCustomizer.configurationSource(new CorsConfigurationSource() {
+            // filterChain이 요청을 가로채고 해당 요청에 대해 보안 설정을 진행
+            // 전역 Cors 설정보다 먼저 적용됨
                 @Override
                 public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
 
@@ -81,7 +83,7 @@ public class SecurityConfig {
                     configuration.setAllowedMethods(Collections.singletonList("*"));
                     configuration.setAllowCredentials(true); //서버가 클라이언트에게 인증된 사용자 정보를 전달할 수 있는지 여부를 결정
                     configuration.setAllowedHeaders(Collections.singletonList("*")); // 모든 헤더 허용
-                    configuration.setMaxAge(3600L);
+                    configuration.setMaxAge(3600L); //캐시 기간 설정
                     //서버에서 클라이언트로 반환될 때 노출되는 헤더를 설정하는 부분
                     configuration.setExposedHeaders(Collections.singletonList("Set-Cookie")); //쿠키를 설정할 때 사용
                     configuration.setExposedHeaders(Collections.singletonList("Authorization")); //인증된 요청을 할 때 사용

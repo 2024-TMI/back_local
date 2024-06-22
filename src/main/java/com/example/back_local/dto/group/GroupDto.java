@@ -11,7 +11,7 @@ import lombok.*;
 @ToString
 public class GroupDto {
     @JsonProperty("name")
-    private String groupName;
+    private String group_name;
 
-    private String type;
+    private String group_category;
 }

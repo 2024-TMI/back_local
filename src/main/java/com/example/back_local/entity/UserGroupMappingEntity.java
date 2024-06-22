@@ -18,16 +18,16 @@ public class UserGroupMappingEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username", nullable = false)
-    private String username;
+//    @Column(name = "username", nullable = false)
+//    private String username;
+//
+//    @Column(name = "group_id", nullable = false)
+//    private String groupId;
 
-    @Column(name = "group_id", nullable = false)
-    private String groupId;
-
-    private String groupRole;
+    private String group_role;
 
     @ManyToOne
-    @JoinColumn(name = "username", insertable = false, updatable = false)
+    @JoinColumn(name = "user_username", insertable = false, updatable = false)
     private UserEntity user;
 
     @ManyToOne

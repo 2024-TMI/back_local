@@ -14,13 +14,12 @@ import lombok.*;
 public class AccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "account_id")
-    private Long accountId;
+    private Long id;
 
     private String date;
     private String classification;
     private String category;
-    private String businessName;
+    private String business_name;
     private String amount;
 
     @ManyToOne

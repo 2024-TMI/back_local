@@ -1,4 +1,4 @@
-package com.example.back_local.dto;
+package com.example.back_local.dto.kakao;
 
 import java.sql.Time;
 import java.time.LocalDateTime;

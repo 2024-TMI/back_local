@@ -1,13 +1,11 @@
 package com.example.back_local.service.impl;
 
-import com.example.back_local.dto.KakaoUserInfoDto;
+import com.example.back_local.dto.kakao.KakaoUserInfoDto;
 import com.example.back_local.dto.UserDto;
 import com.example.back_local.entity.UserEntity;
 import com.example.back_local.entity.UserGroupMappingEntity;
-import com.example.back_local.jwt.JWTUtil;
 import com.example.back_local.repository.UserRepository;
 import com.example.back_local.service.KakaoService;
-import jakarta.servlet.http.Cookie;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
