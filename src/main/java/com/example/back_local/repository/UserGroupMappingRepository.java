@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
  * @PackageName : com.example.back_local.repository
@@ -22,8 +23,8 @@ public interface UserGroupMappingRepository extends JpaRepository<UserGroupMappi
     List<GroupEntity> findAllGroupsByUsername(String username);
 
     @Query("SELECT ugm.group_role FROM UserGroupMappingEntity ugm WHERE ugm.user.username = :username and ugm.group.id = :id")
-    String findGroupRoleByUsernameAndGroupId(String username, Long group_id);
+    String findGroupRoleByUsernameAndGroupId(@Param("username")String username, @Param("id")Long group_id); //웬만하면 param으로 붙여 주기
 
     @Query("SELECT CASE WHEN COUNT(ugm) > 0 THEN true ELSE false END FROM UserGroupMappingEntity ugm WHERE ugm.group.id = :id")
-    Boolean existsByGroupId(Long group_id);
+    Boolean existsByGroupId(@Param("id")Long group_id); //매개변수가 이름과 다른 경우 and 2개 이상인 경우 @Param으로 일치 시켜 주기
 }
