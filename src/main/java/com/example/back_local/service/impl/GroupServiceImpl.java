@@ -123,6 +123,7 @@ public class GroupServiceImpl implements GroupService {
     @Transactional //동일한 클래스 내에서 부르면 통하지 않음
     public GroupAfterCreateDto saveGroupAndUserGroupMappingEntity(
         UserEntity userEntity, GroupEntity groupEntity, UserGroupMappingEntity userGroupMappingEntity){
+
         userEntity.getUserGroupMappings().add(userGroupMappingEntity);
 
         UserEntity saveUser = userRepository.save(userEntity);
