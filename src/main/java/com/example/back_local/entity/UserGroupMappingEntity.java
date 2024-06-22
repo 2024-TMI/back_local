@@ -27,7 +27,7 @@ public class UserGroupMappingEntity {
     private String group_role;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_username" ,) //, insertable = false, updatable = false
+    @JoinColumn(name = "user_username") //, insertable = false, updatable = false
     private UserEntity user;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
