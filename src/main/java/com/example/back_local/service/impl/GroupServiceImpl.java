@@ -47,6 +47,8 @@ public class GroupServiceImpl implements GroupService {
 
         String invite_code = generateInviteCode(group_name);
         GroupEntity groupEntity = makeGroupEntity(invite_code, group_name, group_category);
+        GroupEntity saveGroup = saveGroupEntity(groupEntity);
+
         String username = getCurrentUsername();
         if(username == null){
             return null;
@@ -56,9 +58,9 @@ public class GroupServiceImpl implements GroupService {
             return null;
         }
         UserGroupMappingEntity userGroupMappingEntity = makeUserGroupMappingEntity(userEntity, groupEntity);
+
         userEntity.getUserGroupMappings().add(userGroupMappingEntity);
         UserEntity saveUser = saveUserEntity(userEntity);
-        GroupEntity saveGroup = saveGroupEntity(groupEntity);
 
         saveGroup.getUserGroupMappings().add(userGroupMappingEntity);
         GroupEntity reSaveGroup = saveGroupEntity(saveGroup);
