@@ -35,4 +35,11 @@ public class GroupController {
         LOGGER.info("---------createGroup End null----------");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
+
+    @GetMapping("/lists")
+    public void getGroupLists(@RequestBody ){
+
+
+
+    }
 }

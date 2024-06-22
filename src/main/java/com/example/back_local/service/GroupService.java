@@ -15,4 +15,5 @@ public interface GroupService {
 
     public GroupAfterCreateDto createGroup(String group_name, String type);
 
+    public void getGroupLists();
 }

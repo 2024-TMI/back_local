@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
+import javax.swing.GroupLayout.Group;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,9 +56,21 @@ public class GroupServiceImpl implements GroupService {
             return null;
         }
         UserGroupMappingEntity userGroupMappingEntity = makeUserGroupMappingEntity(userEntity, groupEntity);
+        userEntity.getUserGroupMappings().add(userGroupMappingEntity);
+        groupEntity.getUserGroupMappings().add(userGroupMappingEntity);
 
-        return saveGroupAndUserGroupMappingEntity(userEntity, groupEntity,userGroupMappingEntity);
+        UserEntity saveUser = saveUserEntity(userEntity);
+        GroupEntity saveGroup = saveGroupEntity(groupEntity);
+        UserGroupMappingEntity saveUserGroup = saveGroupAndUserGroupMappingEntity(userGroupMappingEntity);
+
+        return makeGroupAfterCreateDto(saveUser, saveGroup, saveUserGroup);
     }
+
+    @Override
+    public void getGroupLists() {
+
+    }
+
 
     private String generateInviteCode(String group_name){
         String uuid = UUID.randomUUID().toString();
@@ -120,24 +133,53 @@ public class GroupServiceImpl implements GroupService {
             .group(groupEntity)
             .build();
     }
-    @Transactional //동일한 클래스 내에서 부르면 통하지 않음
-    public GroupAfterCreateDto saveGroupAndUserGroupMappingEntity(
+
+    @Transactional
+    public GroupEntity saveGroupEntity(GroupEntity groupEntity){
+        return groupRepository.save(groupEntity);
+    }
+
+    @Transactional
+    public UserEntity saveUserEntity(UserEntity userEntity){
+        return userRepository.save(userEntity);
+    }
+
+    @Transactional
+    public UserGroupMappingEntity saveGroupAndUserGroupMappingEntity(UserGroupMappingEntity userGroupMappingEntity){
+        return userGroupMappingRepository.save(userGroupMappingEntity);
+    }
+
+    public GroupAfterCreateDto makeGroupAfterCreateDto(
         UserEntity userEntity, GroupEntity groupEntity, UserGroupMappingEntity userGroupMappingEntity){
-
-        userEntity.getUserGroupMappings().add(userGroupMappingEntity);
-
-        UserEntity saveUser = userRepository.save(userEntity);
-        GroupEntity saveGroup = groupRepository.save(groupEntity);
-        UserGroupMappingEntity saveUserGroup = userGroupMappingRepository.save(userGroupMappingEntity);
         return GroupAfterCreateDto.builder()
-            .username(saveUser.getUsername())
-            .group_id(saveGroup.getId())
-            .invite_code(saveGroup.getInvite_code())
-            .group_name(saveGroup.getGroup_name())
-            .group_category(saveGroup.getGroup_category())
-            .total(saveGroup.getTotal())
-            .user_group_mapping_id(saveUserGroup.getId())
-            .group_role(saveUserGroup.getGroup_role())
+            .username(userEntity.getUsername())
+            .group_id(groupEntity.getId())
+            .invite_code(groupEntity.getInvite_code())
+            .group_name(groupEntity.getGroup_name())
+            .group_category(groupEntity.getGroup_category())
+            .total(groupEntity.getTotal())
+            .user_group_mapping_id(userGroupMappingEntity.getId())
+            .group_role(userGroupMappingEntity.getGroup_role())
             .build();
     }
+//    @Transactional //동일한 클래스 내에서 부르면 통하지 않음
+//    public GroupAfterCreateDto saveGroupAndUserGroupMappingEntity(
+//        UserEntity userEntity, GroupEntity groupEntity, UserGroupMappingEntity userGroupMappingEntity){
+//
+//        userEntity.getUserGroupMappings().add(userGroupMappingEntity);
+//
+//        UserEntity saveUser = userRepository.save(userEntity);
+//        GroupEntity saveGroup = groupRepository.save(groupEntity);
+//        UserGroupMappingEntity saveUserGroup = userGroupMappingRepository.save(userGroupMappingEntity);
+//        return GroupAfterCreateDto.builder()
+//            .username(saveUser.getUsername())
+//            .group_id(saveGroup.getId())
+//            .invite_code(saveGroup.getInvite_code())
+//            .group_name(saveGroup.getGroup_name())
+//            .group_category(saveGroup.getGroup_category())
+//            .total(saveGroup.getTotal())
+//            .user_group_mapping_id(saveUserGroup.getId())
+//            .group_role(saveUserGroup.getGroup_role())
+//            .build();
+//    }
 }
