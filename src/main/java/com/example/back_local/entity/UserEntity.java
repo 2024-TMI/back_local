@@ -29,5 +29,5 @@ public class UserEntity {
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserGroupMappingEntity> userGroupMappings;
+    private List<UserGroupMappingEntity> userGroupMappings = new ArrayList<>();
 }

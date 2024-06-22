@@ -27,8 +27,8 @@ public class GroupEntity {
     private Long total_amount; //총 비용
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserGroupMappingEntity> userGroupMappings ;
+    private List<UserGroupMappingEntity> userGroupMappings  = new ArrayList<>();
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AccountEntity> accounts;
+    private List<AccountEntity> accounts  = new ArrayList<>();
 }
