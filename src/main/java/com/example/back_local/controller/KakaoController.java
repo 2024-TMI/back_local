@@ -44,7 +44,7 @@ public class KakaoController {
 
         UserDto memberInfo = kakaoService.kakaoLoginOrRegister(accessToken);
         if(memberInfo != null){
-            String token = jwtUtil.createJwt(memberInfo.getUsername(), memberInfo.getRole(), 60*60*60L);
+            String token = jwtUtil.createJwt(memberInfo.getUsername(), memberInfo.getRole(), 60*60*60L *100);
             response.addHeader("Authorization", token); // 앱은 쿠키 사용 불가, jwt만 보내기
             LOGGER.info("----------------kakoLogin End----------------");
             return ResponseEntity.ok().body(memberInfo);
