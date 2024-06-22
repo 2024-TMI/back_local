@@ -57,13 +57,15 @@ public class GroupServiceImpl implements GroupService {
         }
         UserGroupMappingEntity userGroupMappingEntity = makeUserGroupMappingEntity(userEntity, groupEntity);
         userEntity.getUserGroupMappings().add(userGroupMappingEntity);
-        groupEntity.getUserGroupMappings().add(userGroupMappingEntity);
-
         UserEntity saveUser = saveUserEntity(userEntity);
         GroupEntity saveGroup = saveGroupEntity(groupEntity);
+
+        saveGroup.getUserGroupMappings().add(userGroupMappingEntity);
+        GroupEntity reSaveGroup = saveGroupEntity(saveGroup);
+
         UserGroupMappingEntity saveUserGroup = saveGroupAndUserGroupMappingEntity(userGroupMappingEntity);
 
-        return makeGroupAfterCreateDto(saveUser, saveGroup, saveUserGroup);
+        return makeGroupAfterCreateDto(saveUser, reSaveGroup, saveUserGroup);
     }
 
     @Override
