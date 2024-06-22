@@ -36,10 +36,10 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
-    @GetMapping("/lists")
-    public void getGroupLists(@RequestBody ){
-
-
-
-    }
+//    @GetMapping("/lists")
+//    public void getGroupLists(@RequestBody ){
+//
+//
+//
+//    }
 }
