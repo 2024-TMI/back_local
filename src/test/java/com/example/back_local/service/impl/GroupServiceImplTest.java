@@ -12,8 +12,13 @@ import com.example.back_local.repository.UserGroupMappingRepository;
 import com.example.back_local.repository.UserRepository;
 import com.example.back_local.security.SecurityUtil;
 import com.example.back_local.service.GroupService;
+import java.util.ArrayList;
+import java.util.List;
+import javax.lang.model.type.ArrayType;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -23,7 +28,11 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -52,7 +61,13 @@ class GroupServiceImplTest {
     private GroupServiceImpl groupServiceImpl;
 
     @BeforeEach
-    void setUp() {
+    void setUp(TestInfo testInfo) {
+        if (testInfo.getDisplayName().equals("removeGroup_ReturnTrue_WhenCorrectRequest")) {
+            return;
+        }
+        if (testInfo.getDisplayName().equals("groupInfo_returnGroupEntity_WhenCorrectRequest")) {
+            return;
+        }
         // Configure the mock behavior
         when(securityUtil.getCurrentUsername()).thenReturn("exampleUser");
     }
@@ -110,5 +125,85 @@ class GroupServiceImplTest {
 
         // Then
         assertNull(result);
+    }
+
+    @Test
+    void getGroupLists_ReturnGroupLists_WhenCorrectRequest(){
+
+        List<GroupEntity> list = new ArrayList<>();
+        list.add(GroupEntity.builder()
+                .group_name("Group1")
+                .group_category("운동")
+            .build());
+        list.add(GroupEntity.builder()
+            .group_name("Group2")
+            .group_category("공부")
+            .build());
+        list.add(GroupEntity.builder()
+            .group_name("Group3")
+            .group_category("메이플스토리")
+            .build());
+
+        String username = securityUtil.getCurrentUsername();
+
+        when(userGroupMappingRepository.findAllGroupsByUsername(username)).thenReturn(list);
+
+        List<GroupEntity> result = groupServiceImpl.getGroupLists();
+        assertNotNull(result);
+        assertEquals(result, list);
+    }
+
+    @Test
+    @DisplayName("removeGroup_ReturnTrue_WhenCorrectRequest")
+    void removeGroup_ReturnTrue_WhenCorrectRequest(){
+
+        Long group_id = 2L;
+        Boolean tf = true;
+
+        doNothing().when(groupRepository).deleteById(group_id);
+        when(userGroupMappingRepository.existsByGroupId(group_id)).thenReturn(false);
+
+        Boolean result = groupServiceImpl.removeGroup(group_id);
+        assertFalse(result, "must not exist group");
+
+        verify(groupRepository, times(1)).deleteById(group_id);
+        verify(userGroupMappingRepository, times(1)).existsByGroupId(group_id);
+    }
+
+    @Test
+    void checkGroupRole_returnGroupRole_WhenCorrectRequest(){
+
+        Long group_id = 2L;
+        String group_role = "Manager";
+
+        when(userGroupMappingRepository.findGroupRoleByUsernameAndGroupId(anyString(), anyLong())).thenReturn(group_role);
+
+        String result = groupServiceImpl.checkGroupRole(group_id);
+
+        assertNotNull(result);
+        assertEquals(result, group_role);
+    }
+
+    @Test
+    @DisplayName("groupInfo_returnGroupEntity_WhenCorrectRequest")
+    void groupInfo_returnGroupEntity_WhenCorrectRequest(){
+
+        Long group_id = 2L;
+        GroupEntity groupEntity = GroupEntity.builder()
+            .group_name("Group1")
+            .group_category("운동")
+            .invite_code("INV123")
+            .build();
+
+        when(groupRepository.findGroupEntityById(group_id)).thenReturn(Optional.of(groupEntity));
+
+        GroupEntity result = groupServiceImpl.groupInfo(group_id);
+        assertNotNull(result);
+        assertEquals(result.getGroup_name(), groupEntity.getGroup_name());
+
+        // 해당 메서드가 정확히 1번 호출되었는지 확인함
+        // group_id를 받은 findGroupEntityById가
+        // groupRepository 객체에서 정확히 한번 호출되는지 검증
+        verify(groupRepository, times(1)).findGroupEntityById(group_id);
     }
 }

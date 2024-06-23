@@ -89,7 +89,7 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public Boolean removeGroup(Long group_id) {
         LOGGER.info("---------removeGroup Start-----------");
-        userGroupMappingRepository.deleteById(group_id);
+        groupRepository.deleteById(group_id);
         return userGroupMappingRepository.existsByGroupId(group_id);
     }
 

@@ -51,7 +51,7 @@ public class GroupController {
     }
 
     @PostMapping("/remove")
-    public ResponseEntity<Map<String, String>> removeGroup(Long group_id){
+    public ResponseEntity<Map<String, String>> removeGroup(@RequestParam("group_id") Long group_id){
         LOGGER.info("---------removeGroup Start----------");
 
         Map<String, String> responseData = new HashMap<>();
@@ -69,7 +69,7 @@ public class GroupController {
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
     @GetMapping("/configuration")
-    public ResponseEntity<GroupEntity> getGroupInfo(Long group_id){
+    public ResponseEntity<GroupEntity> getGroupInfo(@RequestParam("group_id") Long group_id){
         LOGGER.info("---------getGroupInfo Start----------");
         String groupRole = groupService.checkGroupRole(group_id);
         if(groupRole.equals("Member")){
