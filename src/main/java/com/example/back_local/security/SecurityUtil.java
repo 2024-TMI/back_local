@@ -16,10 +16,11 @@ import org.springframework.stereotype.Component;
  * @GitHub :
  */
 
+@Component
 public class SecurityUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityUtil.class);
-    public static String getCurrentUsername(){
+    public String getCurrentUsername(){
         LOGGER.info("-------getCurrentUsername Start--------");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {

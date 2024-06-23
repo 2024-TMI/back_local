@@ -2,6 +2,7 @@ package com.example.back_local.service;
 
 import com.example.back_local.dto.group.GroupAfterCreateDto;
 import com.example.back_local.entity.GroupEntity;
+import com.example.back_local.entity.UserEntity;
 import com.example.back_local.entity.UserGroupMappingEntity;
 import java.util.List;
 
@@ -22,4 +23,6 @@ public interface GroupService {
     public Boolean removeGroup(Long group_id);
 
     public String checkGroupRole(Long group_id);
+
+    public GroupEntity groupInfo(Long group_id);
 }

@@ -68,4 +68,16 @@ public class GroupController {
         responseData.put("msg", "Clearly removed");
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
+    @GetMapping("/configuration")
+    public ResponseEntity<GroupEntity> getGroupInfo(Long group_id){
+        LOGGER.info("---------getGroupInfo Start----------");
+        String groupRole = groupService.checkGroupRole(group_id);
+        if(groupRole.equals("Member")){
+            LOGGER.info("---------getGroupInfo End -> Not Manager----------");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        GroupEntity findGroupEntity = groupService.groupInfo(group_id);
+        LOGGER.info("---------getGroupInfo End----------");
+        return ResponseEntity.ok(findGroupEntity);
+    }
 }
