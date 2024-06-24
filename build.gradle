@@ -39,6 +39,7 @@ dependencies {
 
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
 
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     // 테스트를 위한 의존성
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
