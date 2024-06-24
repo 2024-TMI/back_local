@@ -1,6 +1,7 @@
 package com.example.back_local.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.*;
 
 @Entity
@@ -16,11 +17,11 @@ public class AccountEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String date;
+    private LocalDateTime date;
     private String classification;
     private String category;
     private String business_name;
-    private String amount;
+    private Long amount;
 
     @ManyToOne
     @JoinColumn(name = "group_id")

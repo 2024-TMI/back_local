@@ -18,13 +18,13 @@ import java.util.List;
  */
 public interface GroupService {
 
-    public GroupAfterCreateDto createGroup(String group_name, String type);
+    GroupAfterCreateDto createGroup(String group_name, String type);
 
-    public List<GroupListDto> getGroupLists();
+    List<GroupListDto> getGroupLists();
 
-    public Boolean removeGroup(Long group_id);
+    Boolean removeGroup(Long group_id);
 
-    public String checkGroupRole(Long group_id);
+    String checkGroupRole(Long group_id);
 
-    public GroupConfigurationDto groupInfo(Long group_id);
+    GroupConfigurationDto groupInfo(Long group_id);
 }

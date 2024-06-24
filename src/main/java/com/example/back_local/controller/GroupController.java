@@ -44,7 +44,6 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
-    @GetMapping("/lists")
     public ResponseEntity<List<GroupListDto>> getGroupLists(){
         LOGGER.info("---------getGroupLists Start----------");
         List<GroupListDto> groupLists = groupService.getGroupLists();

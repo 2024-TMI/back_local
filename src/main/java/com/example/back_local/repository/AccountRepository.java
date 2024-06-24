@@ -1,6 +1,8 @@
 package com.example.back_local.repository;
 
 import com.example.back_local.entity.AccountEntity;
+import com.example.back_local.entity.GroupEntity;
+import java.util.List;
 import org.springdoc.core.providers.JavadocProvider;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,5 +15,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @GitHub :
  */
 public interface AccountRepository extends JpaRepository<AccountEntity, Long> {
+
+//    List<AccountEntity> findAccountEntitiesBy
 
 }

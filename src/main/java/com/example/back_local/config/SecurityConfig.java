@@ -68,7 +68,7 @@ public class SecurityConfig {
             .authorizeHttpRequests((auth) -> auth
                 .requestMatchers("/ecom/api/**", "/v3/**").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
-                .requestMatchers("/kakao/login").permitAll()
+                .requestMatchers("/kakao/login/**").permitAll()
                 .anyRequest().authenticated());
 
         http

@@ -1,5 +1,7 @@
 package com.example.back_local.generation;
 
+import com.example.back_local.dto.account.AccountAddDto;
+import com.example.back_local.entity.AccountEntity;
 import com.example.back_local.entity.GroupEntity;
 import com.example.back_local.entity.UserEntity;
 import com.example.back_local.entity.UserGroupMappingEntity;
@@ -38,5 +40,16 @@ public class MakeEntity {
                 .user(userEntity)
                 .group(groupEntity)
                 .build();
+    }
+
+    public AccountEntity makeAccountEntity(AccountAddDto accountAddDto, GroupEntity groupEntity){
+        return AccountEntity.builder()
+            .amount(accountAddDto.getAmount())
+            .business_name(accountAddDto.getBusiness_name())
+            .classification(accountAddDto.getClassification())
+            .category(accountAddDto.getCategory())
+            .date(accountAddDto.getDate())
+            .group(groupEntity)
+            .build();
     }
 }
