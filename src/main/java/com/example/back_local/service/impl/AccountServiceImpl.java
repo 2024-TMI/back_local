@@ -10,8 +10,11 @@ import com.example.back_local.generation.MakeEntity;
 import com.example.back_local.repository.AccountRepository;
 import com.example.back_local.repository.GroupRepository;
 import com.example.back_local.service.AccountService;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -57,9 +60,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<AccountListResponseDto> getAccountList(AccountListRequestDto accountListRequestDto) {
+    public List<AccountListResponseDto> getAccountList(LocalDate date, Long group_id) {
 
-        LocalDateTime startDay = accountListRequestDto.getDate().toLocalDate().atStartOfDay();
+        LocalDateTime startDay = date.atStartOfDay();
         LocalDateTime endDay = startDay.toLocalDate().atTime(LocalTime.MAX);
 
         List<AccountEntity> accountEntities = accountRepository.findByDateOrderByTimeAsc(startDay, endDay);

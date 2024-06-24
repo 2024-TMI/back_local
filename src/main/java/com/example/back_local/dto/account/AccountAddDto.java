@@ -25,7 +25,9 @@ public class AccountAddDto {
 
     private Long group_id;
 
-    private LocalDateTime date;
+    private String date;
+
+    private LocalDateTime dateTime;
 
     private Long amount;
 

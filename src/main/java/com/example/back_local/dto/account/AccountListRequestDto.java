@@ -23,6 +23,6 @@ import lombok.Setter;
 @Builder
 public class AccountListRequestDto {
 
-    private LocalDateTime date;
+    private String date;
     private Long group_id;
 }

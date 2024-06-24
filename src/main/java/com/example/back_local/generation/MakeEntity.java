@@ -48,7 +48,7 @@ public class MakeEntity {
             .business_name(accountAddDto.getBusiness_name())
             .classification(accountAddDto.getClassification())
             .category(accountAddDto.getCategory())
-            .date(accountAddDto.getDate())
+            .date(accountAddDto.getDateTime())
             .group(groupEntity)
             .build();
     }

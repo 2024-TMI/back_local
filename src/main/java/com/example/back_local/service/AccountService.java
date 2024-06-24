@@ -4,6 +4,8 @@ import com.example.back_local.dto.account.AccountAddDto;
 import com.example.back_local.dto.account.AccountListRequestDto;
 import com.example.back_local.dto.account.AccountListResponseDto;
 import com.example.back_local.entity.AccountEntity;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -18,6 +20,6 @@ public interface AccountService {
 
     AccountEntity saveAccount(AccountAddDto accountAddDto);
 
-    List<AccountListResponseDto> getAccountList(AccountListRequestDto accountListRequestDto);
+    List<AccountListResponseDto> getAccountList(LocalDate date, Long group_id);
 
 }
