@@ -1,8 +1,10 @@
 package com.example.back_local.service;
 
 import com.example.back_local.dto.account.AccountAddDto;
-import com.example.back_local.dto.account.AccountListDto;
+import com.example.back_local.dto.account.AccountListRequestDto;
+import com.example.back_local.dto.account.AccountListResponseDto;
 import com.example.back_local.entity.AccountEntity;
+import java.util.List;
 
 /**
  * @PackageName : com.example.back_local.service.impl
@@ -16,6 +18,6 @@ public interface AccountService {
 
     AccountEntity saveAccount(AccountAddDto accountAddDto);
 
-    void getAccountList(AccountListDto accountListDto);
+    List<AccountListResponseDto> getAccountList(AccountListRequestDto accountListRequestDto);
 
 }

@@ -9,7 +9,7 @@ import lombok.Setter;
 
 /**
  * @PackageName : com.example.back_local.dto.account
- * @FileName : AccountListDto
+ * @FileName : AccountListResponseDto
  * @Author : noglass_gongdae
  * @Date : 2024-06-24
  * @Blog : https://blog.naver.com/noglass_gongdae
@@ -21,8 +21,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AccountListDto {
+public class AccountListResponseDto {
 
-    private LocalDateTime localDateTime;
-    private Long group_id;
+    private String business_name;
+    private Long amount;
+    private String classification;
+    private String category;
+    private LocalDateTime date;
+
 }

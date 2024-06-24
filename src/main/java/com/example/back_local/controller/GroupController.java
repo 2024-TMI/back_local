@@ -53,7 +53,7 @@ public class GroupController {
     }
 
     @PostMapping("/remove")
-    public ResponseEntity<Map<String, String>> removeGroup(@RequestParam("group_id") Long group_id){
+    public ResponseEntity<Map<String, String>> removeGroup(@RequestParam("group_id") Long group_id){ //urlencoded로 받을때는 Long형식도 String으로 변환하여 보내야함
         LOGGER.info("---------removeGroup Start----------");
 
         Map<String, String> responseData = new HashMap<>();

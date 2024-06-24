@@ -1,9 +1,11 @@
 package com.example.back_local.generation;
 
+import com.example.back_local.dto.account.AccountListResponseDto;
 import com.example.back_local.dto.group.GroupAfterCreateDto;
 import com.example.back_local.dto.group.GroupConfigurationDto;
 import com.example.back_local.dto.group.GroupConfigurationUsersDto;
 import com.example.back_local.dto.group.GroupListDto;
+import com.example.back_local.entity.AccountEntity;
 import com.example.back_local.entity.GroupEntity;
 import com.example.back_local.entity.UserEntity;
 import com.example.back_local.entity.UserGroupMappingEntity;
@@ -73,5 +75,15 @@ public class MakeDto{
             .group_role(userGroupMappingRepository.findGroupRoleByUsernameAndGroupId(userEntity.getUsername(), group_id))
             .build()).toList();
 
+    }
+
+    public List<AccountListResponseDto> makeALRDto(List<AccountEntity> accountEntities){
+        return accountEntities.stream().map(accountEntity -> AccountListResponseDto.builder()
+            .business_name(accountEntity.getBusiness_name())
+            .amount(accountEntity.getAmount())
+            .classification(accountEntity.getClassification())
+            .category(accountEntity.getCategory())
+            .date(accountEntity.getDate())
+            .build()).toList();
     }
 }

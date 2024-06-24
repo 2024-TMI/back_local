@@ -1,14 +1,18 @@
 package com.example.back_local.service.impl;
 
 import com.example.back_local.dto.account.AccountAddDto;
-import com.example.back_local.dto.account.AccountListDto;
+import com.example.back_local.dto.account.AccountListRequestDto;
+import com.example.back_local.dto.account.AccountListResponseDto;
 import com.example.back_local.entity.AccountEntity;
 import com.example.back_local.entity.GroupEntity;
+import com.example.back_local.generation.MakeDto;
 import com.example.back_local.generation.MakeEntity;
 import com.example.back_local.repository.AccountRepository;
 import com.example.back_local.repository.GroupRepository;
 import com.example.back_local.service.AccountService;
-import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +34,7 @@ public class AccountServiceImpl implements AccountService {
     private final GroupRepository groupRepository;
     private final AccountRepository accountRepository;
     private final MakeEntity makeEntity;
+    private final MakeDto makeDto;
 
     @Override
     public AccountEntity saveAccount(AccountAddDto accountAddDto) {
@@ -52,9 +57,16 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void getAccountList(AccountListDto accountListDto) {
+    public List<AccountListResponseDto> getAccountList(AccountListRequestDto accountListRequestDto) {
 
+        LocalDateTime startDay = accountListRequestDto.getDate().toLocalDate().atStartOfDay();
+        LocalDateTime endDay = startDay.toLocalDate().atTime(LocalTime.MAX);
 
-
+        List<AccountEntity> accountEntities = accountRepository.findByDateOrderByTimeAsc(startDay, endDay);
+        if(accountEntities == null){
+            return null;
+        }
+        List<AccountListResponseDto> ALRDto = makeDto.makeALRDto(accountEntities);
+        return ALRDto;
     }
 }
