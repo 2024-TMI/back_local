@@ -1,8 +1,6 @@
 package com.example.back_local.service;
 
-import com.example.back_local.dto.UserDto;
-import com.example.back_local.entity.UserEntity;
-import jakarta.servlet.http.Cookie;
+import com.example.back_local.dto.user.UserDto;
 
 /**
  * @PackageName : com.example.back_local.service

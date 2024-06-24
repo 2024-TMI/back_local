@@ -1,6 +1,8 @@
 package com.example.back_local.service;
 
 import com.example.back_local.dto.group.GroupAfterCreateDto;
+import com.example.back_local.dto.group.GroupConfigurationDto;
+import com.example.back_local.dto.group.GroupListDto;
 import com.example.back_local.entity.GroupEntity;
 import com.example.back_local.entity.UserEntity;
 import com.example.back_local.entity.UserGroupMappingEntity;
@@ -18,11 +20,11 @@ public interface GroupService {
 
     public GroupAfterCreateDto createGroup(String group_name, String type);
 
-    public List<GroupEntity> getGroupLists();
+    public List<GroupListDto> getGroupLists();
 
     public Boolean removeGroup(Long group_id);
 
     public String checkGroupRole(Long group_id);
 
-    public GroupEntity groupInfo(Long group_id);
+    public GroupConfigurationDto groupInfo(Long group_id);
 }

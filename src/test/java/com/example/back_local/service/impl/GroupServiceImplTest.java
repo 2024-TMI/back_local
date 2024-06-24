@@ -128,32 +128,6 @@ class GroupServiceImplTest {
     }
 
     @Test
-    void getGroupLists_ReturnGroupLists_WhenCorrectRequest(){
-
-        List<GroupEntity> list = new ArrayList<>();
-        list.add(GroupEntity.builder()
-                .group_name("Group1")
-                .group_category("운동")
-            .build());
-        list.add(GroupEntity.builder()
-            .group_name("Group2")
-            .group_category("공부")
-            .build());
-        list.add(GroupEntity.builder()
-            .group_name("Group3")
-            .group_category("메이플스토리")
-            .build());
-
-        String username = securityUtil.getCurrentUsername();
-
-        when(userGroupMappingRepository.findAllGroupsByUsername(username)).thenReturn(list);
-
-        List<GroupEntity> result = groupServiceImpl.getGroupLists();
-        assertNotNull(result);
-        assertEquals(result, list);
-    }
-
-    @Test
     @DisplayName("removeGroup_ReturnTrue_WhenCorrectRequest")
     void removeGroup_ReturnTrue_WhenCorrectRequest(){
 

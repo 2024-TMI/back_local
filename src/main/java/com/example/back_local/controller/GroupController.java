@@ -1,7 +1,9 @@
 package com.example.back_local.controller;
 
 import com.example.back_local.dto.group.GroupAfterCreateDto;
+import com.example.back_local.dto.group.GroupConfigurationDto;
 import com.example.back_local.dto.group.GroupCreateDto;
+import com.example.back_local.dto.group.GroupListDto;
 import com.example.back_local.entity.GroupEntity;
 import com.example.back_local.entity.UserGroupMappingEntity;
 import com.example.back_local.repository.UserGroupMappingRepository;
@@ -43,9 +45,9 @@ public class GroupController {
     }
 
     @GetMapping("/lists")
-    public ResponseEntity<List<GroupEntity>> getGroupLists(){
+    public ResponseEntity<List<GroupListDto>> getGroupLists(){
         LOGGER.info("---------getGroupLists Start----------");
-        List<GroupEntity> groupLists= groupService.getGroupLists();
+        List<GroupListDto> groupLists = groupService.getGroupLists();
         LOGGER.info("---------getGroupLists End----------");
         return ResponseEntity.ok(groupLists);
     }
@@ -69,15 +71,15 @@ public class GroupController {
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
     @GetMapping("/configuration")
-    public ResponseEntity<GroupEntity> getGroupInfo(@RequestParam("group_id") Long group_id){
+    public ResponseEntity<GroupConfigurationDto> getGroupInfo(@RequestParam("group_id") Long group_id){
         LOGGER.info("---------getGroupInfo Start----------");
-        String groupRole = groupService.checkGroupRole(group_id);
-        if(groupRole.equals("Member")){
-            LOGGER.info("---------getGroupInfo End -> Not Manager----------");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-        GroupEntity findGroupEntity = groupService.groupInfo(group_id);
+//        String groupRole = groupService.checkGroupRole(group_id);
+//        if(groupRole.equals("Member")){
+//            LOGGER.info("---------getGroupInfo End -> Not Manager----------");
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+//        }
+        GroupConfigurationDto groupConfigurationDto = groupService.groupInfo(group_id);
         LOGGER.info("---------getGroupInfo End----------");
-        return ResponseEntity.ok(findGroupEntity);
+        return ResponseEntity.ok(groupConfigurationDto);
     }
 }

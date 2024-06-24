@@ -14,7 +14,6 @@ public class MakeEntity {
 
     public GroupEntity makeGroupEntity(String invite_code, String group_name, String group_category) {
         LOGGER.info("-------makeGroupEntity Start--------");
-        String section = null;
         Long total = 1L;
         String date = null;
         Long total_amount = 0L;
@@ -22,7 +21,6 @@ public class MakeEntity {
         return GroupEntity.builder()
                 .invite_code(invite_code)
                 .group_name(group_name)
-                .section(section)
                 .group_category(group_category)
                 .total(total)
                 .date(date)

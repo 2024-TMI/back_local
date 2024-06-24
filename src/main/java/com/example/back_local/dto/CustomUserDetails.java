@@ -1,5 +1,6 @@
 package com.example.back_local.dto;
 
+import com.example.back_local.dto.user.UserDto;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

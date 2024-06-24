@@ -1,7 +1,7 @@
 package com.example.back_local.service.impl;
 
 import com.example.back_local.dto.kakao.KakaoUserInfoDto;
-import com.example.back_local.dto.UserDto;
+import com.example.back_local.dto.user.UserDto;
 import com.example.back_local.entity.UserEntity;
 import com.example.back_local.entity.UserGroupMappingEntity;
 import com.example.back_local.repository.UserRepository;

@@ -1,6 +1,9 @@
 package com.example.back_local.service.impl;
 
 import com.example.back_local.dto.group.GroupAfterCreateDto;
+import com.example.back_local.dto.group.GroupConfigurationDto;
+import com.example.back_local.dto.group.GroupConfigurationUsersDto;
+import com.example.back_local.dto.group.GroupListDto;
 import com.example.back_local.entity.GroupEntity;
 import com.example.back_local.entity.UserEntity;
 import com.example.back_local.entity.UserGroupMappingEntity;
@@ -79,11 +82,12 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public List<GroupEntity> getGroupLists() {
+    public List<GroupListDto> getGroupLists() {
         LOGGER.info("---------getGroupLists Start-----------");
         String username = securityUtil.getCurrentUsername();
         LOGGER.info("---------getGroupLists End-----------");
-        return userGroupMappingRepository.findAllGroupsByUsername(username);
+        List<GroupEntity> findGroups = userGroupMappingRepository.findAllGroupsByUsername(username);
+        return makeDto.makeGroupList(findGroups);
     }
 
     @Override
@@ -101,8 +105,15 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public GroupEntity groupInfo(Long group_id) {
+    public GroupConfigurationDto groupInfo(Long group_id) {
         LOGGER.info("---------groupInfo Start-----------");
-        return groupRepository.findGroupEntityById(group_id).orElse(null);
+        GroupEntity findGroup = groupRepository.findGroupEntityById(group_id).orElse(null);
+        List<UserEntity> findUsers = userGroupMappingRepository.findAllUsersInGroupByGroupId(group_id);
+        if(findGroup == null || findUsers == null){
+            return null;
+        }
+        List<GroupConfigurationUsersDto> GCUDto = makeDto.makeGCUDto(findUsers, group_id);
+        GroupConfigurationDto groupConfigurationDto = makeDto.makeGCDto(findGroup, GCUDto);
+        return groupConfigurationDto;
     }
 }

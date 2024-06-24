@@ -1,7 +1,7 @@
 package com.example.back_local.controller;
 
 import com.example.back_local.dto.kakao.KakaoDto;
-import com.example.back_local.dto.UserDto;
+import com.example.back_local.dto.user.UserDto;
 import com.example.back_local.jwt.JWTUtil;
 import com.example.back_local.service.KakaoService;
 import jakarta.servlet.http.HttpServletRequest;

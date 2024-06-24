@@ -20,11 +20,14 @@ public class GroupEntity {
     private Long id;
     private String invite_code; //초대 코드
     private String group_name; //그룹명
-    private String section; //날짜~날짜
     private String group_category; //그룹 종류
     private Long total; //총 인원
     private String date; //?
     private Long total_amount; //총 비용
+
+    @OneToOne(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    //mappedBy의 value와 자식 엔티티의 변수명이 같아야 함
+    private SectionEntity section; //날짜~날짜
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserGroupMappingEntity> userGroupMappings  = new ArrayList<>();

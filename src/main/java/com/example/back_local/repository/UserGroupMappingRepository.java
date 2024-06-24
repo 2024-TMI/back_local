@@ -1,6 +1,7 @@
 package com.example.back_local.repository;
 
 import com.example.back_local.entity.GroupEntity;
+import com.example.back_local.entity.UserEntity;
 import com.example.back_local.entity.UserGroupMappingEntity;
 import com.sun.jdi.LongValue;
 import java.util.List;
@@ -27,4 +28,7 @@ public interface UserGroupMappingRepository extends JpaRepository<UserGroupMappi
 
     @Query("SELECT CASE WHEN COUNT(ugm) > 0 THEN true ELSE false END FROM UserGroupMappingEntity ugm WHERE ugm.group.id = :id")
     Boolean existsByGroupId(@Param("id")Long group_id); //매개변수가 이름과 다른 경우 and 2개 이상인 경우 @Param으로 일치 시켜 주기
+
+    @Query("SELECT ugm.user FROM UserGroupMappingEntity ugm WHERE ugm.group.id = :id")
+    List<UserEntity> findAllUsersInGroupByGroupId(@Param("id") Long group_id);
 }

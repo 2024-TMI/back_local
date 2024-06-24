@@ -66,7 +66,8 @@ public class SecurityConfig {
         //경로별 인가 작업
         http
             .authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/ecom/api/swagger", "/h2-console/**").permitAll()
+                .requestMatchers("/ecom/api/**", "/v3/**").permitAll()
+                .requestMatchers("/h2-console/**").permitAll()
                 .requestMatchers("/kakao/login").permitAll()
                 .anyRequest().authenticated());
 
